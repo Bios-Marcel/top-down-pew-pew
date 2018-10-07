@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://KinematicBody2D.gd" type="Script" id=1]
+[ext_resource path="res://sprites/idle.png" type="Texture" id=2]
+[ext_resource path="res://sprites/shooting/shooting_0.png" type="Texture" id=3]
+[ext_resource path="res://sprites/shooting/shooting_1.png" type="Texture" id=4]
+[ext_resource path="res://sprites/shooting/shooting_2.png" type="Texture" id=5]
+[ext_resource path="res://sprites/shooting/shooting_3.png" type="Texture" id=6]
+[ext_resource path="res://sprites/idle-gun.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "shooting",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "moving",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 8.5885
+height = 15.103
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+
+position = Vector2( 464, 304 )
+scale = Vector2( 1.5, 1.5 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+
+[node name="Sprite" type="AnimatedSprite" parent="." index="0"]
+
+position = Vector2( 0.66666, 2.08616e-05 )
+rotation = 4.71239
+frames = SubResource( 1 )
+animation = "moving"
+playing = true
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+
+position = Vector2( -0.333334, 0 )
+shape = SubResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Camera2D" type="Camera2D" parent="." index="2"]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 0.5, 0.5 )
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = false
+smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
+editor_draw_screen = true
+editor_draw_limits = false
+editor_draw_drag_margin = false
+
+[node name="gun_left" type="Node2D" parent="." index="3"]
+
+position = Vector2( 13.6841, -11.5949 )
+scale = Vector2( -6.26666e-05, 0.0492277 )
+_sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
+
+[node name="gun_right" type="Node2D" parent="." index="4"]
+
+position = Vector2( 12.7589, 11.7384 )
+scale = Vector2( -6.26666e-05, 0.0492277 )
+_sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
+
+
