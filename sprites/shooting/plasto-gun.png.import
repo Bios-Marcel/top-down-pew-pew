@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/plasto-gun.png-70e27d7506159aa1d89ce7abbc127872.stex"
+path="res://.import/plasto-gun.png-7e274f168ccbc5e6fdf93b68660539e4.stex"
 
 [deps]
 
-source_file="res://sprites/plasto-gun.png"
-dest_files=[ "res://.import/plasto-gun.png-70e27d7506159aa1d89ce7abbc127872.stex" ]
+source_file="res://sprites/shooting/plasto-gun.png"
+dest_files=[ "res://.import/plasto-gun.png-7e274f168ccbc5e6fdf93b68660539e4.stex" ]
 
 [params]
 
