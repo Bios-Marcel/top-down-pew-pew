@@ -24,10 +24,13 @@ func _input(event):
 				self.shooting = true
 			else:
 				self.shooting = false
+				
+	#TODO Evaluate if it makes sense to switch the movement to an input even approach
 
 func _physics_process(delta):
 	processMovement()
 	processViewAngle()
+	processProjectiles()
 		
 func processMovement():
 	var movement = Vector2(0, 0)
@@ -60,3 +63,8 @@ func processMovement():
 func processViewAngle():
 	look_at(get_global_mouse_position())
 	
+func processProjectiles():
+	check_projectile_collisions()
+		
+func check_projectile_collisions():
+	pass

@@ -4,12 +4,12 @@ extends Area2D
 # var a = 2
 # var b = "textvar"
 
-func _init(angle):
-	pass
-
 func _ready():
-	# Fire
-	pass
+	move_local_x(30)
+
+func _physics_process(delta):
+	
+
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
