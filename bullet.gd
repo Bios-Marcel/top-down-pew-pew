@@ -8,8 +8,7 @@ func _ready():
 	move_local_x(30)
 
 func _physics_process(delta):
-	
-
+	pass
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
