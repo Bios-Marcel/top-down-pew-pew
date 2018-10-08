@@ -1,21 +1,48 @@
 extends KinematicBody2D
 
-const DEFAULT_MOVEMENT_SPEED = 50
-const ACCELERATION_MOVEMENT_SPEED = 20
+const MOVEMENT_ACCELERATION = 25
 const MAX_MOVEMENT_SPEED = 200
 
-var speed = 0
+# Stores the motion/direction the user is currently moving towards.
+var motion = Vector2(0, 0)
 
 var shooting = false setget set_shooting
 
 func _init():
-	#TODO Enable later on, it's quite annoying for now.
-	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	# TODO Enable later on, it's quite annoying for now.
+	# Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	pass
 
-func set_shooting(newValue):
-	shooting = newValue
-	$Sprite.play("shooting")
+func _physics_process(delta):
+	processMovement()
+	processViewAngle()
+
+func processMovement():
+	if Input.is_action_pressed("ui_up"):
+		motion.y = max(motion.y - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
+	if Input.is_action_pressed("ui_down"):
+		motion.y = min(motion.y + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
+	if Input.is_action_pressed("ui_left"):
+		motion.x = max(motion.x - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
+	if Input.is_action_pressed("ui_right"):
+		motion.x = min(motion.x + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
+	
+	# Slow down the movement if the player is not pressing any buttons.
+	# The X and Y axis are handled seperately as the changes on one axis (Ex. Up/Down, Y Axis)
+	# would not have been handled otherwise if you are still holding the other buttons (Ex. Left/Right, X Axis).
+	if !Input.is_action_pressed("ui_up") and !Input.is_action_pressed("ui_down"):
+		motion.y = lerp(motion.y, 0.0, 0.2)
+	if !Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_right"):
+		motion.x = lerp(motion.x, 0.0, 0.2)
+	
+	# If there's any movement to make, do so. Otherwise, make the player idle.
+	if motion != Vector2():
+		move_and_slide(motion)
+	else:
+		$Sprite.play("idle")
+
+func processViewAngle():
+	look_at(get_global_mouse_position())
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -25,38 +52,6 @@ func _input(event):
 			else:
 				self.shooting = false
 
-func _physics_process(delta):
-	processMovement()
-	processViewAngle()
-		
-func processMovement():
-	var movement = Vector2(0, 0)
-		
-	# Accelerate linear
-	speed = min(max(DEFAULT_MOVEMENT_SPEED, speed + ACCELERATION_MOVEMENT_SPEED), MAX_MOVEMENT_SPEED)
-	
-	if Input.is_key_pressed(KEY_UP)	or Input.is_key_pressed(KEY_W):
-		movement.y += -speed
-	if Input.is_key_pressed(KEY_LEFT) || Input.is_key_pressed(KEY_A):
-		movement.x += -speed
-	if Input.is_key_pressed(KEY_DOWN) || Input.is_key_pressed(KEY_S):
-		movement.y += speed
-	if Input.is_key_pressed(KEY_RIGHT) || Input.is_key_pressed(KEY_D):
-		movement.x += speed
-	
-	# There was a movement on either the vertical or the horizontal axis, therefore we move
-	if movement.x != 0 or movement.y != 0:
-		move_and_slide(movement)
-		
-		if !shooting:
-			$Sprite.play("moving")
-	else:
-		# Resetting speed, as no movement happend and therefore acceleration has to happen agai
-		if !shooting:
-			$Sprite.play("idle")
-			
-		speed = 0
-		
-func processViewAngle():
-	look_at(get_global_mouse_position())
-	
+func set_shooting(newValue):
+	shooting = newValue
+	$Sprite.play("shooting")
