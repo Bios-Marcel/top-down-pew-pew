@@ -4,7 +4,7 @@
 [ext_resource path="res://stoneground.tres" type="TileSet" id=2]
 [ext_resource path="res://player.tscn" type="PackedScene" id=3]
 
-[node name="TheWorldo" type="Node"]
+[node name="TheWorldo" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause" ]

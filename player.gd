@@ -5,6 +5,7 @@ const MAX_MOVEMENT_SPEED = 200
 
 # Stores the motion/direction the user is currently moving towards.
 var motion = Vector2(0, 0)
+var nullVector = Vector2()
 
 var shooting = false setget set_shooting
 
@@ -37,9 +38,10 @@ func processMovement():
 		motion.x = lerp(motion.x, 0.0, 0.2)
 	
 	# If there's any movement to make, do so. Otherwise, make the player idle.
-	if motion != Vector2():
+	if motion != nullVector:
 		move_and_slide(motion)
-	else:
+	
+	if !shooting:
 		$Sprite.play("idle")
 
 func processViewAngle():
