@@ -2,11 +2,10 @@ extends KinematicBody2D
 
 const MOVEMENT_ACCELERATION = 25
 const MAX_MOVEMENT_SPEED = 200
+const nullVector = Vector2()
 
 # Stores the motion/direction the user is currently moving towards.
 var motion = Vector2(0, 0)
-var nullVector = Vector2()
-
 var shooting = false setget set_shooting
 
 func _init():

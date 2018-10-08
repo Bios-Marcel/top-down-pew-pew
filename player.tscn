@@ -42,11 +42,11 @@ collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="AnimatedSprite" parent="." index="0"]
 
 position = Vector2( 0.66666, 2.08616e-05 )
-rotation = 4.71239
 frames = SubResource( 1 )
 animation = "moving"
 playing = true
@@ -87,14 +87,14 @@ _sections_unfolded = [ "Smoothing" ]
 
 [node name="GunLeft" type="Node2D" parent="." index="3"]
 
-position = Vector2( 13.6841, -11.5949 )
-scale = Vector2( -6.26666e-05, 0.0492277 )
+position = Vector2( 13.6695, -12.9306 )
+scale = Vector2( -0.000520427, 0.000108164 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
 
 [node name="GunRight" type="Node2D" parent="." index="4"]
 
-position = Vector2( 12.7589, 11.7384 )
-scale = Vector2( -6.26666e-05, 0.0492277 )
+position = Vector2( 12.7535, 10.196 )
+scale = Vector2( -0.000231392, -0.000301825 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
 
 
