@@ -3,13 +3,12 @@
 [ext_resource path="res://stoneground.tres" type="TileSet" id=1]
 [ext_resource path="res://player.tscn" type="PackedScene" id=2]
 
-[node name="World" type="Node" index="0"]
+[node name="World" type="Node"]
 
 _sections_unfolded = [ "Pause" ]
 
 [node name="TileMap" type="TileMap" parent="." index="0"]
 
-position = Vector2( -7.22501, -7.04401 )
 mode = 0
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
