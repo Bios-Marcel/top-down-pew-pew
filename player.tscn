@@ -87,12 +87,14 @@ _sections_unfolded = [ "Smoothing" ]
 
 [node name="GunLeft" type="Node2D" parent="." index="3"]
 
+visible = false
 position = Vector2( 13.6695, -12.9306 )
 scale = Vector2( -0.000520427, 0.000108164 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
 
 [node name="GunRight" type="Node2D" parent="." index="4"]
 
+visible = false
 position = Vector2( 12.7535, 10.196 )
 scale = Vector2( -0.000231392, -0.000301825 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]

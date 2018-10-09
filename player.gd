@@ -31,16 +31,16 @@ func processMovement():
 	# Slow down the movement if the player is not pressing any buttons.
 	# The X and Y axis are handled seperately as the changes on one axis (Ex. Up/Down, Y Axis)
 	# would not have been handled otherwise if you are still holding the other buttons (Ex. Left/Right, X Axis).
-	if !Input.is_action_pressed("ui_up") and !Input.is_action_pressed("ui_down"):
+	if not(Input.is_action_pressed("ui_up")) and not(Input.is_action_pressed("ui_down")):
 		motion.y = lerp(motion.y, 0.0, 0.2)
-	if !Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_right"):
+	if not(Input.is_action_pressed("ui_left")) and not(Input.is_action_pressed("ui_right")):
 		motion.x = lerp(motion.x, 0.0, 0.2)
 	
 	# If there's any movement to make, do so. Otherwise, make the player idle.
 	if motion != nullVector:
 		move_and_slide(motion)
 	
-	if !shooting:
+	if not(shooting):
 		$Sprite.play("idle")
 
 func processViewAngle():
