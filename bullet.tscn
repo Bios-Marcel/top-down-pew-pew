@@ -9,7 +9,7 @@ custom_solver_bias = 0.0
 radius = 2.96834
 height = 4.42385
 
-[node name="Bullet" type="Area2D" index="0"]
+[node name="Bullet" type="Area2D"]
 
 position = Vector2( -0.118076, -1.5524 )
 scale = Vector2( 0.986447, 0.973825 )
@@ -35,5 +35,7 @@ position = Vector2( 0.123701, 2.5049 )
 rotation = 1.5708
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
+
+[connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
 
 

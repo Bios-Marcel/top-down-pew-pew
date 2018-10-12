@@ -16,7 +16,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 
 custom_solver_bias = 0.0
-radius = 10.6139
+radius = 8.1273
 
 [node name="Enemy" instance=ExtResource( 1 )]
 
@@ -31,6 +31,8 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" parent="." index="1"]
 
+position = Vector2( -0.0407486, -0.274476 )
+scale = Vector2( 1, 2.48409 )
 shape = SubResource( 2 )
 
 
