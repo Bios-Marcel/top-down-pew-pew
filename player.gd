@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 const MOVEMENT_ACCELERATION = 25
 const MAX_MOVEMENT_SPEED = 200
+const MAX_DIAG_MOVEMENT_SPEED = MAX_MOVEMENT_SPEED * 0.707
 const nullVector = Vector2()
 
 # Stores the motion/direction the user is currently moving towards.
@@ -28,6 +29,12 @@ func processMovement():
 		motion.x = max(motion.x - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
 	if Input.is_action_pressed("ui_right"):
 		motion.x = min(motion.x + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
+
+	# Clamp the movement speed further if moving diagonally.
+	if ((Input.is_action_pressed("ui_up") || Input.is_action_pressed("ui_down"))
+	    && (Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"))):
+		motion.x = clamp(motion.x, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
+		motion.y = clamp(motion.y, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
 
 	# Slow down the movement if the player is not pressing any buttons.
 	# The X and Y axis are handled seperately as the changes on one axis (Ex. Up/Down, Y Axis)
