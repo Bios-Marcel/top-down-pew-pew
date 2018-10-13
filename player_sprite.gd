@@ -4,18 +4,27 @@ var bullet_scene
 var player
 
 func _ready():
-	bullet_scene = load("res://bullet.tscn")
-	player = get_parent()
-	
 	connect("frame_changed", self, "_frame_changed")
 
+	bullet_scene = load("res://bullet.tscn")
+	player = get_parent()
+
 func _frame_changed():
-	if animation == "shooting":
-		match frame:
-			0,2:
-				fire_right_bullet()
-			1,3:
-				fire_left_bullet()
+	match animation:
+		"shooting_both":
+			match frame:
+				0,2:
+					fire_right_bullet()
+				1,3:
+					fire_left_bullet()
+		"shooting_left":
+			match frame:
+				0,2:
+					fire_left_bullet()
+		"shooting_right":
+			match frame:
+				1,3:
+					fire_right_bullet()
 
 # We are using a little hack to determine the bullets starting position.
 # Each gun has an empty marker node that determines where a bullet starts to fly from.
@@ -31,6 +40,6 @@ func fire_right_bullet():
 func fire_bullet(startpos, degree):
 	var new_bullet = bullet_scene.instance()
 	get_tree().get_root().add_child(new_bullet)
-	
+
 	new_bullet.set_rotation_degrees(degree)
 	new_bullet.set_position(startpos)
