@@ -30,4 +30,4 @@ Currently there are no binaries available.
     git checkout -b name-that-states-what-you-do
     ```
 4. Make your changes
-5. Create a pull request on our master branch.
+5. Create a pull request on our `develop` branch.
