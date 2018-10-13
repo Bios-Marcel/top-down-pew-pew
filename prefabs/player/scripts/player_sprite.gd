@@ -39,7 +39,9 @@ func fire_right_bullet():
 
 func fire_bullet(startpos, degree):
 	var new_bullet = bullet_scene.instance()
-	get_tree().get_root().add_child(new_bullet)
+	# We are expect the parent of the parent to be the "World" and inside of that "World"
+	# we want to add the new bullet, but it has to be below the "Player". 
+	get_parent().get_parent().add_child_below_node(get_parent(), new_bullet)
 	
 	new_bullet.set_rotation_degrees(degree)
 	new_bullet.set_position(startpos)
