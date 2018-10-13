@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/idle_gun.png-3e43d391424ca358353766fced9a44da.stex"
+path="res://.import/0.png-4d12668f3c8f8238fa57e074d369d76c.stex"
 
 [deps]
 
-source_file="res://prefabs/player/sprites/idle_gun.png"
-dest_files=[ "res://.import/idle_gun.png-3e43d391424ca358353766fced9a44da.stex" ]
+source_file="res://prefabs/player/sprites/shooting_left_animation/0.png"
+dest_files=[ "res://.import/0.png-4d12668f3c8f8238fa57e074d369d76c.stex" ]
 
 [params]
 

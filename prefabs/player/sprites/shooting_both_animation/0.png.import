@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shooting_3.png-2af05884a125735093af763fdc9650d2.stex"
+path="res://.import/0.png-e0a5feb460743da805c9791b536e0549.stex"
 
 [deps]
 
-source_file="res://prefabs/player/sprites/shooting_animation/shooting_3.png"
-dest_files=[ "res://.import/shooting_3.png-2af05884a125735093af763fdc9650d2.stex" ]
+source_file="res://prefabs/player/sprites/shooting_both_animation/0.png"
+dest_files=[ "res://.import/0.png-e0a5feb460743da805c9791b536e0549.stex" ]
 
 [params]
 
