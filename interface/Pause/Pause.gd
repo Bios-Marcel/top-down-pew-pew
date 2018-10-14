@@ -6,7 +6,3 @@ func _input(event):
 		get_tree().paused = new_pause_state
 
 		visible = new_pause_state
-		if visible:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
