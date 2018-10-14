@@ -14,9 +14,6 @@ var sprinting = false
 var shooting_left = false setget set_shooting_left
 var shooting_right = false setget set_shooting_right
 
-func _init():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-
 func _physics_process(delta):
 	process_mouse_input()
 	process_movement()
