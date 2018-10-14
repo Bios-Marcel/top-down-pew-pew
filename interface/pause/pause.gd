@@ -3,7 +3,10 @@ extends Control
 func _input(event):
 	if event.is_action_pressed("ui_pause"):
 		toggle_pause()
+	else:
+		handle_focus()
 
+func handle_focus():
 	if event.is_action_pressed("ui_down"):
 		if $ResumeButton.has_focus():
 			$ExitButton.grab_focus()
