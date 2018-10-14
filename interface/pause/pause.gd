@@ -4,9 +4,9 @@ func _input(event):
 	if event.is_action_pressed("ui_pause"):
 		toggle_pause()
 	else:
-		handle_focus()
+		handle_focus(event)
 
-func handle_focus():
+func handle_focus(event):
 	if event.is_action_pressed("ui_down"):
 		if $ResumeButton.has_focus():
 			$ExitButton.grab_focus()
