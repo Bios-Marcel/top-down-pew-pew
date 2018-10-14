@@ -2,7 +2,6 @@ extends KinematicBody2D
 
 const MOVEMENT_ACCELERATION = 25
 const MAX_MOVEMENT_SPEED = 200
-const MAX_DIAG_MOVEMENT_SPEED = MAX_MOVEMENT_SPEED * 0.707
 const nullVector = Vector2()
 
 # Stores the motion/direction the user is currently moving towards.
@@ -19,20 +18,26 @@ func _physics_process(delta):
 	process_view_angle()
 
 func process_movement():
+	var mov_accel = Vector2()	
+	
+	# Add acceleration to the acceleration vector.
 	if Input.is_action_pressed("ui_up"):
-		motion.y = max(motion.y - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
+		mov_accel.y -= MOVEMENT_ACCELERATION
 	if Input.is_action_pressed("ui_down"):
-		motion.y = min(motion.y + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
+		mov_accel.y += MOVEMENT_ACCELERATION
 	if Input.is_action_pressed("ui_left"):
-		motion.x = max(motion.x - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
+		mov_accel.x -= MOVEMENT_ACCELERATION
 	if Input.is_action_pressed("ui_right"):
-		motion.x = min(motion.x + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
-
-	# Clamp the movement speed further if moving diagonally.
-	if ((Input.is_action_pressed("ui_up") || Input.is_action_pressed("ui_down"))
-		&& (Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"))):
-		motion.x = clamp(motion.x, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
-		motion.y = clamp(motion.y, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
+		mov_accel.x += MOVEMENT_ACCELERATION
+	
+	if mov_accel != nullVector:
+		# Clamp the acceleration to its maximum. This is to normalize the acceleration when moving diagonally.
+		mov_accel = mov_accel.clamped(MOVEMENT_ACCELERATION)
+	
+		# Add the acceleration to the movement.
+		motion = motion + mov_accel
+		# Clamp the movement to its maximum. It also normalize the movement when moving diagonally.
+		motion = motion.clamped(MAX_MOVEMENT_SPEED)
 
 	# Slow down the movement if the player is not pressing any buttons.
 	# The X and Y axis are handled seperately as the changes on one axis (Ex. Up/Down, Y Axis)
