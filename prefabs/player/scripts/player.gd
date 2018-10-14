@@ -10,16 +10,14 @@ var shooting_left = false setget set_shooting_left
 var shooting_right = false setget set_shooting_right
 
 func _init():
-	# TODO Enable later on, it's quite annoying for now.
-	# Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	pass
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 
 func _physics_process(delta):
-	processMovement()
-	processViewAngle()
-	processProjectiles()
+	process_mouse_input()
+	process_movement()
+	process_view_angle()
 
-func processMovement():
+func process_movement():
 	var mov_accel = Vector2()	
 	
 	# Add acceleration to the acceleration vector.
@@ -56,19 +54,12 @@ func processMovement():
 	if not(shooting_left or shooting_right):
 		$Sprite.play("idle")
 
-func processViewAngle():
+func process_view_angle():
 	look_at(get_global_mouse_position())
 
-func processProjectiles():
-	pass
-
-func _input(event):
-	if event is InputEventMouseButton:
-		match event.button_index:
-			BUTTON_LEFT:
-				self.shooting_left = event.is_pressed()
-			BUTTON_RIGHT:
-				self.shooting_right = event.is_pressed()
+func process_mouse_input():
+	self.shooting_left = Input.is_mouse_button_pressed(BUTTON_LEFT)
+	self.shooting_right = Input.is_mouse_button_pressed(BUTTON_RIGHT)
 
 func set_shooting_left(newValue):
 	shooting_left = newValue
