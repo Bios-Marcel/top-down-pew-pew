@@ -9,7 +9,4 @@ func _input(event):
 		if visible:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
-			var mouse_pos = get_global_mouse_position()
-			print(mouse_pos)
 			Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-			Input.warp_mouse_position(mouse_pos)

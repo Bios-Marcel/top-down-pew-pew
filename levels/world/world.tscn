@@ -1,11 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/tilesets/floor/floor.tres" type="TileSet" id=1]
 [ext_resource path="res://prefabs/player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/enemy/enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://interface/Pause/Pause.gd" type="Script" id=4]
 
-[node name="World" type="Node"]
+[sub_resource type="DynamicFontData" id=1]
+
+hinting = 2
+font_path = "res://interface/fonts/Montserrat-Medium.otf"
+
+[sub_resource type="DynamicFont" id=2]
+
+size = 40
+use_mipmaps = false
+use_filter = true
+font_data = SubResource( 1 )
+_sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
+
+[node name="World" type="Node" index="0"]
 
 _sections_unfolded = [ "Pause" ]
 
@@ -37,29 +50,34 @@ _sections_unfolded = [ "Cell", "Collision", "Occluder", "Transform", "Z Index" ]
 position = Vector2( 384, 32 )
 _sections_unfolded = [ "Z Index" ]
 
-[node name="Pause" type="Control" parent="." index="3"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="3"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="Pause" type="Popup" parent="CanvasLayer" index="0"]
 
 pause_mode = 2
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1074.0
-margin_top = -763.0
-margin_right = 1150.0
-margin_bottom = 782.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+popup_exclusive = false
 script = ExtResource( 4 )
-_sections_unfolded = [ "Material", "Pause", "Rect", "Visibility" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Material", "Pause", "Popup", "Rect", "Visibility" ]
 
-[node name="Background" type="ColorRect" parent="Pause" index="0"]
+[node name="Panel" type="Panel" parent="CanvasLayer/Pause" index="0"]
 
+modulate = Color( 0, 0, 0, 0.718667 )
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -70,7 +88,30 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-color = Color( 0, 0, 0, 0.707608 )
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Material", "Visibility", "custom_styles" ]
+
+[node name="Label" type="Label" parent="CanvasLayer/Pause" index="1"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -62.0
+margin_right = 62.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.1014, 0.1014, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+text = "Pause"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "Size Flags", "Visibility", "custom_fonts", "custom_styles" ]
 
 
