@@ -58,15 +58,20 @@ func process_movement():
 	if motion != nullVector:
 		move_and_slide(motion)
 
-	if not(shooting_left or shooting_right):
-		$Sprite.play("idle")
-
 func process_view_angle():
 	look_at(get_global_mouse_position())
 
 func process_mouse_input():
 	self.shooting_left = Input.is_action_pressed("shoot_left")
 	self.shooting_right = Input.is_action_pressed("shoot_right")
+
+	# Handle the first frame shot.
+	if Input.is_action_just_pressed("shoot_left") and $Sprite.animation == "shooting_left":
+		$Sprite.fire_left_bullet()
+
+	# Handle the first frame shot for both 'right' and 'both', as the right gun fires first in this case.
+	if Input.is_action_just_pressed("shoot_right") and ($Sprite.animation == "shooting_right" or $Sprite.animation == "shooting_both"):
+		$Sprite.fire_right_bullet()
 
 func set_shooting_left(newValue):
 	shooting_left = newValue
@@ -83,3 +88,5 @@ func update_shooting_state():
 		$Sprite.play("shooting_left")
 	elif shooting_right:
 		$Sprite.play("shooting_right")
+	else:
+		$Sprite.play("idle")

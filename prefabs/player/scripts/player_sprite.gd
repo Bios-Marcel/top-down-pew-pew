@@ -23,7 +23,7 @@ func _frame_changed():
 					fire_left_bullet()
 		"shooting_right":
 			match frame:
-				1,3:
+				0,2:
 					fire_right_bullet()
 
 # We are using a little hack to determine the bullets starting position.
