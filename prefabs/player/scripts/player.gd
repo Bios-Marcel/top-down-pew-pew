@@ -14,6 +14,8 @@ var sprinting = false
 var shooting_left = false setget set_shooting_left
 var shooting_right = false setget set_shooting_right
 
+onready var options = get_node("/root/World/Options")
+
 func _physics_process(delta):
 	process_mouse_input()
 	process_movement()
@@ -59,7 +61,16 @@ func process_movement():
 		move_and_slide(motion)
 
 func process_view_angle():
-	look_at(get_global_mouse_position())
+	if options.controller_aim:
+		var y_val = Input.get_joy_axis(0, JOY_ANALOG_RY)
+		var x_val = Input.get_joy_axis(0, JOY_ANALOG_RX)
+		var dir = Vector2(x_val, y_val)
+
+		# Deadzone for 'rest' position.
+		if dir.length() > 0.3:
+			look_at(position + dir)
+	else:
+		look_at(get_global_mouse_position())
 
 func process_mouse_input():
 	self.shooting_left = Input.is_action_pressed("shoot_left")
