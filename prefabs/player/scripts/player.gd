@@ -65,14 +65,6 @@ func process_mouse_input():
 	self.shooting_left = Input.is_action_pressed("shoot_left")
 	self.shooting_right = Input.is_action_pressed("shoot_right")
 
-	# Handle the first frame shot.
-	if Input.is_action_just_pressed("shoot_left") and $Sprite.animation == "shooting_left":
-		$Sprite.fire_left_bullet()
-
-	# Handle the first frame shot for both 'right' and 'both', as the right gun fires first in this case.
-	if Input.is_action_just_pressed("shoot_right") and ($Sprite.animation == "shooting_right" or $Sprite.animation == "shooting_both"):
-		$Sprite.fire_right_bullet()
-
 func set_shooting_left(newValue):
 	shooting_left = newValue
 	update_shooting_state()
@@ -82,11 +74,13 @@ func set_shooting_right(newValue):
 	update_shooting_state()
 
 func update_shooting_state():
-	if shooting_left and shooting_right:
-		$Sprite.play("shooting_both")
-	elif shooting_left:
-		$Sprite.play("shooting_left")
-	elif shooting_right:
-		$Sprite.play("shooting_right")
+	if shooting_left:
+		$ArmLeftSprite.play("shooting")
 	else:
-		$Sprite.play("idle")
+		$ArmLeftSprite.play("idle")
+
+	if shooting_right:
+		$ArmRightSprite.play("shooting")
+	else:
+		$ArmRightSprite.play("idle")
+
