@@ -32,7 +32,7 @@ func processMovement():
 
 	# Clamp the movement speed further if moving diagonally.
 	if ((Input.is_action_pressed("ui_up") || Input.is_action_pressed("ui_down"))
-	    && (Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"))):
+		&& (Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"))):
 		motion.x = clamp(motion.x, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
 		motion.y = clamp(motion.y, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
 
@@ -74,9 +74,13 @@ func set_shooting_right(newValue):
 	update_shooting_state()
 
 func update_shooting_state():
-	if shooting_left and shooting_right:
-		$Sprite.play("shooting_both")
-	elif shooting_left:
-		$Sprite.play("shooting_left")
-	elif shooting_right:
-		$Sprite.play("shooting_right")
+	if shooting_left:
+		$ArmLeftSprite.play("shooting")
+	else:
+		$ArmLeftSprite.play("idle")
+
+	if shooting_right:
+		$ArmRightSprite.play("shooting")
+	else:
+		$ArmRightSprite.play("idle")
+		
