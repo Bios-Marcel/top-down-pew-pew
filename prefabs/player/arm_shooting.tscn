@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="AnimatedSprite" type="AnimatedSprite"]
+
+animation = "default"
+
+
