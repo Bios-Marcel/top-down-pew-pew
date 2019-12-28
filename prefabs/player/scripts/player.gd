@@ -1,69 +1,80 @@
 extends KinematicBody2D
 
-const MOVEMENT_ACCELERATION = 25
-const MAX_MOVEMENT_SPEED = 200
-const MAX_DIAG_MOVEMENT_SPEED = MAX_MOVEMENT_SPEED * 0.707
+const MOVEMENT_ACCELERATION = 20
+const MAX_MOVEMENT_SPEED = 160
+const MOVEMENT_ACCELERATION_SPRINTING = MOVEMENT_ACCELERATION * 1.5
+const MAX_MOVEMENT_SPEED_SPRINTING = MAX_MOVEMENT_SPEED * 1.5
+
 const nullVector = Vector2()
 
 # Stores the motion/direction the user is currently moving towards.
 var motion = Vector2(0, 0)
+var sprinting = false
+
 var shooting_left = false setget set_shooting_left
 var shooting_right = false setget set_shooting_right
 
-func _init():
-	# TODO Enable later on, it's quite annoying for now.
-	# Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	pass
+onready var options = get_node("/root/World/Options")
 
 func _physics_process(delta):
-	processMovement()
-	processViewAngle()
-	processProjectiles()
+	process_mouse_input()
+	process_movement()
+	process_view_angle()
 
-func processMovement():
-	if Input.is_action_pressed("ui_up"):
-		motion.y = max(motion.y - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
-	if Input.is_action_pressed("ui_down"):
-		motion.y = min(motion.y + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
-	if Input.is_action_pressed("ui_left"):
-		motion.x = max(motion.x - MOVEMENT_ACCELERATION, -MAX_MOVEMENT_SPEED)
-	if Input.is_action_pressed("ui_right"):
-		motion.x = min(motion.x + MOVEMENT_ACCELERATION, MAX_MOVEMENT_SPEED)
+func process_movement():
+	# if the player is holding the sprint key, then we use the values for sprinting
+	var sprint_down = Input.is_action_pressed("sprint")
+	var actual_max_speed = MAX_MOVEMENT_SPEED_SPRINTING if sprint_down else MAX_MOVEMENT_SPEED 
+	var actual_acceleration = MOVEMENT_ACCELERATION_SPRINTING if sprint_down else MOVEMENT_ACCELERATION 
 
-	# Clamp the movement speed further if moving diagonally.
-	if ((Input.is_action_pressed("ui_up") || Input.is_action_pressed("ui_down"))
-	    && (Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"))):
-		motion.x = clamp(motion.x, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
-		motion.y = clamp(motion.y, -MAX_DIAG_MOVEMENT_SPEED, MAX_DIAG_MOVEMENT_SPEED)
+	var mov_accel = Vector2()
+
+	# Add acceleration to the acceleration vector.
+	if Input.is_action_pressed("walk_up"):
+		mov_accel.y -= actual_acceleration
+	if Input.is_action_pressed("walk_down"):
+		mov_accel.y += actual_acceleration
+	if Input.is_action_pressed("walk_left"):
+		mov_accel.x -= actual_acceleration
+	if Input.is_action_pressed("walk_right"):
+		mov_accel.x += actual_acceleration
+
+	if mov_accel != nullVector:
+		# Clamp the acceleration to its maximum. This is to normalize the acceleration when moving diagonally.
+		mov_accel = mov_accel.clamped(actual_acceleration)
+
+		# Add the acceleration to the movement.
+		motion = motion + mov_accel
+		# Clamp the movement to its maximum. It also normalize the movement when moving diagonally.
+		motion = motion.clamped(actual_max_speed)
 
 	# Slow down the movement if the player is not pressing any buttons.
 	# The X and Y axis are handled seperately as the changes on one axis (Ex. Up/Down, Y Axis)
 	# would not have been handled otherwise if you are still holding the other buttons (Ex. Left/Right, X Axis).
-	if not(Input.is_action_pressed("ui_up")) and not(Input.is_action_pressed("ui_down")):
+	if not(Input.is_action_pressed("walk_up")) and not(Input.is_action_pressed("walk_down")):
 		motion.y = lerp(motion.y, 0.0, 0.2)
-	if not(Input.is_action_pressed("ui_left")) and not(Input.is_action_pressed("ui_right")):
+	if not(Input.is_action_pressed("walk_left")) and not(Input.is_action_pressed("walk_right")):
 		motion.x = lerp(motion.x, 0.0, 0.2)
 
 	# If there's any movement to make, do so. Otherwise, make the player idle.
 	if motion != nullVector:
 		move_and_slide(motion)
 
-	if not(shooting_left or shooting_right):
-		$Sprite.play("idle")
+func process_view_angle():
+	if options.controller_aim:
+		var y_val = Input.get_joy_axis(0, JOY_ANALOG_RY)
+		var x_val = Input.get_joy_axis(0, JOY_ANALOG_RX)
+		var dir = Vector2(x_val, y_val)
 
-func processViewAngle():
-	look_at(get_global_mouse_position())
+		# Deadzone for 'rest' position.
+		if dir.length() > 0.3:
+			look_at(position + dir)
+	else:
+		look_at(get_global_mouse_position())
 
-func processProjectiles():
-	pass
-
-func _input(event):
-	if event is InputEventMouseButton:
-		match event.button_index:
-			BUTTON_LEFT:
-				self.shooting_left = event.is_pressed()
-			BUTTON_RIGHT:
-				self.shooting_right = event.is_pressed()
+func process_mouse_input():
+	self.shooting_left = Input.is_action_pressed("shoot_left")
+	self.shooting_right = Input.is_action_pressed("shoot_right")
 
 func set_shooting_left(newValue):
 	shooting_left = newValue
@@ -74,9 +85,13 @@ func set_shooting_right(newValue):
 	update_shooting_state()
 
 func update_shooting_state():
-	if shooting_left and shooting_right:
-		$Sprite.play("shooting_both")
-	elif shooting_left:
-		$Sprite.play("shooting_left")
-	elif shooting_right:
-		$Sprite.play("shooting_right")
+	if shooting_left:
+		$ArmLeftSprite.play("shooting")
+	else:
+		$ArmLeftSprite.play("idle")
+
+	if shooting_right:
+		$ArmRightSprite.play("shooting")
+	else:
+		$ArmRightSprite.play("idle")
+

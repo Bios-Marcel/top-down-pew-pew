@@ -1,20 +1,17 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://prefabs/player/scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/player/sprites/idle.png" type="Texture" id=2]
-[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/0.png" type="Texture" id=3]
-[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/1.png" type="Texture" id=4]
-[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/2.png" type="Texture" id=5]
-[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/3.png" type="Texture" id=6]
-[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/0.png" type="Texture" id=7]
-[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/1.png" type="Texture" id=8]
-[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/2.png" type="Texture" id=9]
-[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/3.png" type="Texture" id=10]
-[ext_resource path="res://prefabs/player/sprites/shooting_both_animation/0.png" type="Texture" id=11]
-[ext_resource path="res://prefabs/player/sprites/shooting_both_animation/1.png" type="Texture" id=12]
-[ext_resource path="res://prefabs/player/sprites/shooting_both_animation/2.png" type="Texture" id=13]
-[ext_resource path="res://prefabs/player/sprites/shooting_both_animation/3.png" type="Texture" id=14]
-[ext_resource path="res://prefabs/player/scripts/player_sprite.gd" type="Script" id=15]
+[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/0.png" type="Texture" id=3]
+[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/1.png" type="Texture" id=4]
+[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/2.png" type="Texture" id=5]
+[ext_resource path="res://prefabs/player/sprites/shooting_left_animation/3.png" type="Texture" id=6]
+[ext_resource path="res://prefabs/player/scripts/shooting_left.gd" type="Script" id=7]
+[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/0.png" type="Texture" id=8]
+[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/1.png" type="Texture" id=9]
+[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/2.png" type="Texture" id=10]
+[ext_resource path="res://prefabs/player/sprites/shooting_right_animation/3.png" type="Texture" id=11]
+[ext_resource path="res://prefabs/player/scripts/shooting_right.gd" type="Script" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -23,25 +20,38 @@ animations = [ {
 "loop": false,
 "name": "idle",
 "speed": 0.0
-}, {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "shooting_right",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
-"loop": true,
-"name": "shooting_left",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
-"loop": true,
-"name": "shooting_both",
-"speed": 10.0
 } ]
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [  ],
+"loop": false,
+"name": "idle",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "shooting",
+"speed": 10.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+
+animations = [ {
+"frames": [  ],
+"loop": false,
+"name": "idle",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "shooting",
+"speed": 10.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
 
 custom_solver_bias = 0.0
 radius = 7.78683
@@ -62,16 +72,33 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 0.66666, 2.08616e-05 )
 frames = SubResource( 1 )
 animation = "idle"
-script = ExtResource( 15 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+[node name="ArmLeftSprite" type="AnimatedSprite" parent="." index="1"]
 
-position = Vector2( 1, 0 )
-shape = SubResource( 2 )
+position = Vector2( 9.66757, -11.9923 )
+scale = Vector2( 1, 1 )
+frames = SubResource( 2 )
+animation = "idle"
+script = ExtResource( 7 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Camera" type="Camera2D" parent="." index="2"]
+[node name="ArmRightSprite" type="AnimatedSprite" parent="." index="2"]
+
+position = Vector2( 9.66757, 10.9942 )
+scale = Vector2( 1, 1 )
+frames = SubResource( 4 )
+animation = "idle"
+script = ExtResource( 12 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
+
+position = Vector2( 1, 0 )
+shape = SubResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Camera" type="Camera2D" parent="." index="4"]
 
 anchor_mode = 1
 rotating = false
@@ -97,14 +124,14 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Smoothing" ]
 
-[node name="GunLeft" type="Node2D" parent="." index="3"]
+[node name="GunLeft" type="Node2D" parent="." index="5"]
 
 visible = false
 position = Vector2( 13.6695, -12.9306 )
 scale = Vector2( -0.000520427, 0.000108164 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
 
-[node name="GunRight" type="Node2D" parent="." index="4"]
+[node name="GunRight" type="Node2D" parent="." index="6"]
 
 visible = false
 position = Vector2( 12.7535, 10.196 )
